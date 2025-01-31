@@ -1,0 +1,527 @@
+{
+  "defaults": {
+    "playerName": "Arjhus",
+    "room": 0,
+	"event": 0
+  },
+  "savedata": {
+    "playerName": "Arjhus",
+    "room": -1,
+	"curEvent": -2
+  },
+  "rooms": [
+    {
+      "name": "Player's house",
+      "connections": [
+        1,
+        2
+      ],
+      "description": [
+        "Around you there is:",
+        "- A LANTERN",
+        "- A DOOR",
+        "- Your BED"
+      ],
+	  "actions":[
+		  {
+			  "commands":[
+			  "CHECK DOOR",
+			  "DOOR"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The DOOR is tall and wooden, currently closed."
+			  ]
+		  },
+		  {
+			  "commands":[
+			  "OPEN DOOR"
+			  ],
+			  "type":"warp",
+			  "room":1,
+			  "newEvent":0
+		  },
+		  {
+			  "commands":[
+				"CHECK BED", 
+				"BED"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The BED is large and sturdy, against the wall opposite the DOOR."
+			  ]
+		  },
+		  {
+			  "commands":[
+				"CHECK LANTERN", 
+				"LANTERN"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The LANTERN has not been lit yet. You may LIGHT it or TAKE it with you."
+			  ]
+		  }
+		  ],
+      "events": [
+        {
+			"type": "pre",
+			"description": [
+				"You wake up and get out of BED."
+				],
+			"changeRoom": false,
+			"newRoom":0,
+			"newEvent": -1
+        },
+		{
+			"type": "pre",
+			"description": [
+				"You enter your HOUSE."
+				],
+			"changeRoom": false,
+			"newRoom":0,
+			"newEvent": -1
+        }
+      ]
+    },
+    {
+      "name": "Forest road",
+      "connections": [
+        2,
+        1
+      ],
+      "description": [
+        "You are in the Vercjlcdorijh village, where the people are going about their daily routines. In the centre of the village, there is a large tower of fire, burning as brightly as ever. You see:",
+        "- The PYRE, burning constantly and towering above the village",
+		"- Your HOUSE",
+		"- Your Mother's HOUSE",
+		"- Your Father's HOUSE",
+		"- The ARMOURY",
+		"- More STREETS in the distance",
+		"- The entrance to the FOREST"
+      ],
+	  "actions":[
+		  {
+			  "commands":[
+			  "CHECK PYRE",
+			  "PYRE"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The PYRE is a tall, looming mass of wood that towers over the village, the entire thing on fire and producing enough smoke to cover the sky above the entire village."
+			  ]
+		  },
+		  {
+			  "commands":[
+			  "CHECK SOLDIERS"
+			  ],
+			  "curEvent":1,
+			  "type":"describe",
+			  "description":[
+				"The SOLDIERS are carrying a BODY through the village. You might be able to TALK to them."
+			  ]
+		  },
+		  {
+			  "commands":[
+			  "TALK TO SOLDIERS"
+			  ],
+			  "curEvent":1,
+			  "type":"question",
+			  "description":[
+				"SOLDIER: \"Greetings! Is there something you want?\""
+			  ],
+			  "options":[
+			  "\"WHERE HAVE YOU COME FROM?\"",
+			  "\"WHO IS THAT?\"",
+			  "EXIT"
+			  ],
+			  "answers":[
+				{
+				 "type": "answer",
+				 "description": [
+					"SOLDIER:\"We have come from the FOREST. Yesterday's hunting party went missing, and this morning's patrol found the bodies deep in the UNCLAIMED WOODS.\""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0,
+				 "newEvent": 1
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					"SOLDIER:\"This is one of the HUNTERS. Yesterday's party never came back, so we went into the FOREST this morning to look for them.\""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0,
+				 "newEvent": 1
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0,
+				 "newEvent": 1
+				}
+			  ],
+			  "newEvent":2
+		  },
+		  {
+			  "commands":[
+			  "LOOT BODY"
+			  ],
+			  "curEvent":1,
+			  "type":"question",
+			  "description":[
+				"SOLDIER: \"Not so fast! This body is being taken to be cremated on the PYRE, you can't just take its possessions as you please!\""
+			  ],
+			  "options":[
+			  "\"SORRY\"",
+			  "\"WHY NOT?\"",
+			  "TRY ANYWAY",
+			  "EXIT"
+			  ],
+			  "answers":[
+				{
+				 "type": "answer",
+				 "description": [
+					"The SOLDIERS walk off towards the PYRE."
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0,
+				 "newEvent": 1
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					"SOLDIER:\"It's disrespectful to take POSSESSIONS from a BODY before it is burned and offered to the GODS.\""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0,
+				 "newEvent": 1
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					"YOU REACH OUT BUT THE SOLDIER GRABS YOUR HAND AND MEETS IT WITH A SWIFT BLOW TO THE STOMACH, CAUSING YOU TO KEEL OVER AND BLACK OUT.",
+					"IT WAS PROBABLY NOT A VERY GOOD IDEA TO TRY TO STEAL WITHIN PLAIN VIEW OF THE GUARDS."
+				 ],
+				 "changeRoom": true,
+				 "newRoom":2,
+				 "newEvent": 0
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0,
+				 "newEvent": 1
+				}
+			  ],
+			  "newEvent":2
+		  },
+		  {
+			  "commands":[
+				"VISIT MY HOUSE", 
+				"MY HOUSE",
+				"HOUSE"
+			  ],
+			  "type":"warp",
+			  "room":0,
+			  "newEvent":1
+		  },
+		  {
+			  "commands":[
+				"VISIT THE PYRE", 
+				"VISIT PYRE"
+			  ],
+			  "type":"warp",
+			  "room":4,
+			  "newEvent":-1
+		  }
+		  ],
+      "events": [
+        {
+          "type": "pre",
+          "description": [
+            "You push open the heavy wooden door."
+          ],
+		  "changeRoom": false,
+		  "newRoom":0,
+		  "newEvent": 1
+        },
+        {
+          "type": "post",
+          "description": [
+            "- A group of soldiers carrying a dead body through the streets."
+          ],
+		  "changeRoom": false,
+		  "newRoom":0,
+		  "newEvent": -1
+        },
+		{
+			"type":"post",
+			"description": [
+			"- A group of soldiers carrying a dead body through the streets.",
+			"SOLDIER: \"Greetings! Is there something you want?\""
+			]
+		}
+      ]
+    },
+	{
+      "name": "Prison Cell",
+      "connections": [
+        3,
+        4
+      ],
+      "description": [
+        "Around you there is:",
+        "- A LANTERN",
+        "- A DOOR",
+        "- A BED"
+      ],
+	  "actions":[
+		  {
+			  "commands":[
+			  "OPEN DOOR",
+			  "CHECK DOOR",
+			  "DOOR"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The wooden DOOR is currently locked and will not move.",
+				"You'll have to find another way out."
+			  ]
+		  },
+		  {
+			  "commands":[
+				"CHECK BED", 
+				"BED"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The BED is large and sturdy, against the wall opposite the DOOR.",
+				"There does not seem to be much you can do right now, you should probably take a rest and recover your energy."
+			  ]
+		  },
+		  {
+			  "commands":[
+				"CHECK LANTERN", 
+				"LANTERN"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"The LANTERN is hanging in the corridor outside, unlit but ominous all the same."
+			  ]
+		  },
+		  {
+			  "commands":[
+				"GO TO SLEEP", 
+				"SLEEP",
+				"USE BED",
+				"SLEEP ON BED"
+			  ],
+			  "type":"question",
+			  "description":[
+				"You lie down on the BED and quickly fall asleep listening to the BIRDS in the FOREST outside.",
+				"/t=500/",
+				"/write/.",
+				"/t=1000/",
+				"/write/.",
+				"/t=1000/",
+				".",
+				"You wake up from the PRISON BED. It seems during the night, a tree from the forest collapsed just next to your cell. You could probably search it, if you can convince the guards to give you some fresh air.",
+				"/t=2000/",
+				"You hear FOOTSTEPS travelling along the corridor, getting closer before the wooden DOOR suddenly opens and a GUARD walks into the room.",
+				"SOLDIER: \"I am here for your routine CELL inspection, to make sure you don't ESCAPE.\""
+			  ],
+			  "options":[
+			  "\"WHY AM I HERE?\"",
+			  "\"WHY HAVE YOU COME?\"",
+			  "EXIT",
+			  "/INPUT/"
+			  ],
+			  "answers":[
+				{
+				 "type": "answer",
+				 "description": [
+					"SOLDIER:\"You tried to STEAL from a DEAD BODY, I do hope I don't need to explain to you why that's a crime...\""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					"SOLDIER:\"I am here for routine cell inspections, as I said.\""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0
+				},
+				{
+				 "type": "answer",
+				 "description": [
+					""
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0
+				},
+				{
+				 "type": "answer-list",
+				 "description":[
+				 "PLEASE ENTER YOUR MESSAGE:"
+				 ],
+				 "answers": [
+					{
+					  "commands":[
+						"GO OUT", 
+						"LEAVE"
+					  ],
+					  "type":"describe",
+					  "description":[
+						"SOLDIER: \"You would have to be supervised, but maybe we could permit that you leave for a short amount of time.\"",
+						"/t=500/",
+						"/write/.",
+						"/t=1000/",
+						"/write/.",
+						"/t=1000/",
+						".",
+						"/t=500/",
+						"SOLDIER: \"Fine. Follow me. I'll take you to find a guard who can supervise you.\"",
+						"The SOLDIER opens the door and leads you out into the corridor, before walking towards the SECURITY ROOM."
+					  ],
+					  "changeRoom": true,
+					  "room":3,
+					  "newEvent":-1
+   				    },
+					{
+					  "commands":[
+						"EXIT"
+						],
+					  "description":[
+					  ""
+					  ],
+					  "newEvent":1
+					}
+				 ],
+				 "changeRoom": false,
+				 "newRoom":0
+				}
+			  ]
+		  },
+		  {
+			  "curEvent":2,
+			  "commands":[
+			  "RETURN TO CORRIDOR",
+			  "RETURN",
+			  "CORRIDOR",
+			  "EXIT"
+			  ],
+			  "type":"warp",
+			  "room":3
+		  }
+		  ],
+      "events": [
+        {
+			"type": "pre",
+			"description": [
+				"You slowly wake up, before realising you are lying on the earthen floor of the PRISON. "
+				],
+			"changeRoom": false,
+			"newRoom":0,
+			"newEvent": -1
+        },
+		{
+			"type": "post",
+			"description": [
+				"The GUARD has left for today.",
+				"You could try again tomorrow."
+				],
+			"changeRoom": false,
+			"newRoom":0,
+			"newEvent": -1
+        },
+		{
+			"type": "pre",
+			"description": [
+				"You walk back into your PRISON CELL."
+				],
+			"changeRoom": false,
+			"newRoom":0,
+			"newEvent": -1
+        }
+      ]
+    },
+	{
+      "name": "Prison Corridor",
+      "connections": [
+        4,
+        3
+      ],
+      "description": [
+        "You are standing in the PRISON corridor.",
+		"All of the doors have been locked, except yours.",
+		"The guard walked off down the corridor... this seems a good time to escape....",
+		"This is as far as has currently been implemented :(",
+		"You can leave if you want, and go back to the main street, but there's not much more to do.",
+		"The prison storyline will be implemented eventually..."
+      ],
+	  "actions":[
+		  {
+			  "commands":[
+				"ENTER MY CELL", 
+				"ENTER CELL",
+				"ENTER",
+				"CELL"
+			  ],
+			  "type":"warp",
+			  "room":2,
+			  "newEvent":2
+		  },
+		  {
+			  "commands":[
+				"LEAVE CORRIDOR",
+				"LEAVE PRISON",
+				"LEAVE",
+				"EXIT CORRIDOR",
+				"EXIT PRISON",
+				"EXIT"
+			  ],
+			  "type":"warp",
+			  "room":1,
+			  "newEvent":-1
+		  }
+	  ]
+	},
+	{
+      "name": "Pyre",
+      "connections": [
+        5,
+        2
+      ],
+	  "description":[
+	  "You stand before the Vercjlcdorijh PYRE, a massive tower of burning wood that looms over the entire village, and has been burning since ancient times.",
+	  "There are four paths surrounding you.",
+	  "To the NORTH and EAST there are streets that lead into the great FOREST, towards the coast where the free alliance lives. (unimplemented)",
+	  "To the NORTH is  also where the Vercjlcdorijh armoury is located.",
+	  "To the SOUTH is the Vercjlcdaůghen BORDER, just past the end of the village, where the Gerfraůghen tribe lives. (unimplemented)",
+	  "To the WEST takes you further into the Vercjlcdorijh village. (unimplemented)"
+	  ],
+	  "actions":[
+		  {
+			  "commands":[
+			  "CHECK PYRE",
+			  "PYRE"
+			  ],
+			  "type":"describe",
+			  "description":[
+				"People say the PYRE has been burning ever since this world was created, when it was lit by the GODS in order to guide humanity with an eternal flame.",
+				"It stands on top of a large wooden PLATFORM, dug into the ground and yet helping it tower above everything around.",
+				"If you look closely, you can see the BODIES of everyone who has ever died in the village, who has then been burned in the fire by tradition."
+			  ]
+		  }
+		]
+	}
+  ]
+}
