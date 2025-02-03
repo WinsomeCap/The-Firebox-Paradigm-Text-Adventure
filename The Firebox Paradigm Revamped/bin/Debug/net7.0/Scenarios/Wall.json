@@ -1,0 +1,58 @@
+{
+  "defaults":{
+    "playername":"Erich",
+    "room":0
+  },
+  "savedata":{
+    "playername":"",
+    "room":-1
+  },
+	"rooms":[
+	{
+	  "name": "player's house",
+	  "connections": [
+		1,
+		2
+	  ],
+	  "description": [
+		"AROUND YOU THERE IS:",
+		"- A LANTERN",
+		"- A DOOR",
+		"- YOUR BED"
+	  ],
+	  "events": [
+		  {
+			"type": "pre",
+			"desciption": [
+				"YOU WAKE UP."
+				]
+			}
+		]
+	},
+	{
+	  "name": "forest road",
+	  "connections": [
+		2,
+		1
+	  ],
+	  "description": [
+		"YOU ARE IN THE VERCJLCDORIJH VILLAGE, WHERE THE PEOPLE ARE GOING ABOUT THEIR DAILY ROUTINES. IN THE CENTRE OF THE VILLAGE, THERE IS A LARGE TOWER OF FIRE, BURNING AS BRIGHTLY AS EVER. YOU SEE:",
+		"- THE PYRE, BURNING CONSTANTLY AND TOWERING ABOVE THE VILLAGE"
+	  ],
+	  "events": [
+			{
+				"type": "pre",
+				"description": [
+					"YOU PUSH OPEN THE HEAVY WOODEN DOOR."
+				]
+			},
+			{
+			"type": "post",
+				"description": [
+					"- A GROUP OF SOLDIERS CARRYING A DEAD BODY THROUGH THE STREETS."
+				]
+			}
+		]
+	}
+]
+}
