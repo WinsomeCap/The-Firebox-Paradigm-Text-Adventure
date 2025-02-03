@@ -1,58 +1,107 @@
 {
-  "defaults":{
-    "playername":"Erich",
-    "room":0
+  "defaults": {
+    "playerName": "Erich",
+    "room": 0,
+    "curEvent": 0
   },
-  "savedata":{
-    "playername":"",
-    "room":-1
+  "savedata": {
+    "playerName": "Erich",
+    "room": -1,
+    "curEvent": 0
   },
-	"rooms":[
-	{
-	  "name": "player's house",
-	  "connections": [
-		1,
-		2
+  "rooms": [
+    {
+      "name": "Lieblied Road",
+      "connections": [
+        1,
+        2
+      ],
+      "description": [
+        "You stand on LIEBLEID ROAD.",
+        "Around you there is:",
+        "- A SUPERMARKET",
+        "- A HOTEL"
+      ],
+      "actions": [
+        {
+          "commands": [
+            "CHECK DOOR",
+            "DOOR"
+          ],
+          "type": "describe",
+          "description": [
+            "The DOOR is tall and wooden, currently closed."
+          ],
+          "room": null,
+          "newEvent": -1,
+          "curEvent": -1,
+          "options": null,
+          "answers": null,
+          "changeRoom": false
+        }
 	  ],
-	  "description": [
-		"AROUND YOU THERE IS:",
-		"- A LANTERN",
-		"- A DOOR",
-		"- YOUR BED"
-	  ],
-	  "events": [
-		  {
-			"type": "pre",
-			"desciption": [
-				"YOU WAKE UP."
-				]
-			}
-		]
-	},
-	{
-	  "name": "forest road",
-	  "connections": [
-		2,
-		1
-	  ],
-	  "description": [
-		"YOU ARE IN THE VERCJLCDORIJH VILLAGE, WHERE THE PEOPLE ARE GOING ABOUT THEIR DAILY ROUTINES. IN THE CENTRE OF THE VILLAGE, THERE IS A LARGE TOWER OF FIRE, BURNING AS BRIGHTLY AS EVER. YOU SEE:",
-		"- THE PYRE, BURNING CONSTANTLY AND TOWERING ABOVE THE VILLAGE"
-	  ],
-	  "events": [
-			{
-				"type": "pre",
-				"description": [
-					"YOU PUSH OPEN THE HEAVY WOODEN DOOR."
-				]
-			},
-			{
-			"type": "post",
-				"description": [
-					"- A GROUP OF SOLDIERS CARRYING A DEAD BODY THROUGH THE STREETS."
-				]
-			}
-		]
-	}
-]
+      "events": [
+        {
+          "type": "pre",
+          "description": [
+            "/HANG/",
+            "/CLEAR/",
+            "\u00D8 - OMICRON CONFLICT SOLUTIONS © 2061 - A UN PEACEKEEPING DIVISION, FOR WHEN ALL OTHER OPTIONS FAIL YOU.",
+            "AGENT NAME: /NAME/",
+            "\"Greetings.\"",
+            "\"You are currently en route to the MILLENIUM CITY.\"",
+            "\"Designed as a massive bastion of humanity's industrial prowess, this city was made to house workers on the FIREBOX project, or anyone else living inside the ATLANTIC CONTINENTAL WALL.\"",
+            "\"However, in recent years the place has been overrun with scum and villainy, and has become a hive for criminal empires looking to stay undetected.\"",
+            "\"The problem arose last month, when the project's overseer, an aging man named ALEKSANDER KOHLER who was well-known and loved by many, was mysteriously found dead in his penthouse, and now many legitimate workers are suspecting foul play.\"",
+            "\"The new leader, Gabriel Vargas, has taken over the project and in his few weeks as president, has already made many drastic departures from the standards laid out by Aleksander in 40 years before him.\"",
+            "\"In controlling the Phoenix continent, Vargas has secured his place as the most powerful man in the world, and he pledges safety and security, although his criminal record would seem to protest anything but.",
+            "\"A US native, Vargas has been accused on many occasions of tax fraud and various types of assault and blackmail to stop his dark secrets from getting out, having even been found in documents which seem to connect him to underground drug rings and corporate espionage circles.",
+            "\"Many campaigns have been made to place him into a prison cell, but unfortunately the wheels of international justice cannot turn by rumours alone, and as it just so happens, that's all there is.",
+            "\"As a result, many people worldwide have become fed up with his games and are now travelling to the city with the intent of revolution. Secret fight clubs lurk in underground arenas organised by ex-military soldiers, with intent to train up bands of revolutionaries, and the recent announcement of martial law has only seemed to fuel the fire, bringing more and more unsatisfied victims of his schemes to the city.",
+            "\"Your mission, should you choose to accept it, is to enter the city as a worker, infiltrate the wall hierarchy and collect any information you can find to link this man to a concrete sign of criminal activity. We must do everything we can to prevent civil conflict, and if that means beating him at his own game, then that is what we will do.",
+            "\"Local time is 19:32\"",
+            "You step off the industrial FERRY onto dry land, looking up to see the great MILLENIUM CITY looming above you. The silhouette of tall SKYSCRAPERS blocks the sunlight, casting shadows over everything."
+          ],
+          "changeRoom": false,
+          "newRoom": 0,
+          "newEvent": 0,
+          "answers": null
+        }
+      ]
+    },
+    {
+      "name": "forest road",
+      "connections": [
+        2,
+        1
+      ],
+      "description": [
+        "YOU ARE IN THE VERCJLCDORIJH VILLAGE, WHERE THE PEOPLE ARE GOING ABOUT THEIR DAILY ROUTINES. IN THE CENTRE OF THE VILLAGE, THERE IS A LARGE TOWER OF FIRE, BURNING AS BRIGHTLY AS EVER. YOU SEE:",
+        "- THE PYRE, BURNING CONSTANTLY AND TOWERING ABOVE THE VILLAGE"
+      ],
+      "actions": null,
+      "events": [
+        {
+          "type": "pre",
+          "description": [
+            "YOU PUSH OPEN THE HEAVY WOODEN DOOR."
+          ],
+          "changeRoom": false,
+          "newRoom": 0,
+          "newEvent": 0,
+          "answers": null
+        },
+        {
+          "type": "post",
+          "description": [
+            "- A GROUP OF SOLDIERS CARRYING A DEAD BODY THROUGH THE STREETS."
+          ],
+          "changeRoom": false,
+          "newRoom": 0,
+          "newEvent": 0,
+          "answers": null
+        }
+      ]
+    }
+  ]
 }
