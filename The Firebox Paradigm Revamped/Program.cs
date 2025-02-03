@@ -3,21 +3,32 @@ using System;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using static The_Firebox_Paradigm_Revamped.Program.Game;
+using System.Runtime.InteropServices;
+
 namespace The_Firebox_Paradigm_Revamped
 {
     internal class Program
     {
+
         /* TODO:
      	* [ ] - NON-TERMINATING NONPUNITIVE INPUT
      	* [ ] - INVENTORY SYSTEM
      	* [ ] - LOOT COMMAND
      	*/
+
         static void Main()
         {
             Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.Unicode;
-            Console.WriteLine("∫arħen daħ Mørlaħ.");
-            Console.WriteLine("Loading game files.");
+            GUI.Text.Header("∫arħen daħ Mørlaħ.");
+            Console.WriteLine();
+            PrettyPrint.WriteObscured("It seems we have a problem",'e');
+            Console.WriteLine();
+            PrettyPrint.ReadLine();
+            Console.WriteLine();
+            PrettyPrint.WriteObscured("It seems we have a problem",'e');
+            Console.WriteLine();
+            GUI.Text.WriteLine("Loading game files.");
             string[] files = Directory.GetFiles("Scenarios");
             List<string> scenarios = new List<string>();
             foreach (string file in files)
@@ -27,12 +38,12 @@ namespace The_Firebox_Paradigm_Revamped
                     scenarios.Add(file.Split("\\")[file.Split("\\").Length - 1].Split(".")[0].ToUpper());
                 }
             }
-            Console.WriteLine("Loading complete.");
-            Text.typeWriter("Greetings.");
-            Text.typeWriter($"In this game, there are {scenarios.Count} different scenarios you may choose to play.");
-            Console.WriteLine();
-            string scenarioChoice = Text.sentenceCase(GUI.displayCommands(scenarios.ToArray(), 0));
-            Text.typeWriter($"Initialising {scenarioChoice} Scenario.");
+            GUI.Text.WriteLine("Loading complete.");
+            GUI.Text.typeWriter("Greetings.");
+            GUI.Text.typeWriter($"In this game, there are {scenarios.Count} different scenarios you may choose to play.");
+            GUI.Text.WriteLine();
+            string scenarioChoice = GUI.Text.sentenceCase(GUI.displayCommands(scenarios.ToArray(), 0));
+            GUI.Text.typeWriter($"Initialising {scenarioChoice} Scenario.");
             Game.load(scenarioChoice);
             Game.play();
         }
@@ -49,19 +60,19 @@ namespace The_Firebox_Paradigm_Revamped
                 if (scenario.savedata.playerName == "")
                 {
                     scenario.savedata.playerName = scenario.defaults.playerName;
-                    Console.WriteLine($"The default name for this scenario is {scenario.savedata.playerName}");
-                    Console.WriteLine("Do you wish to change this name or continue?");
+                    GUI.Text.WriteLine($"The default name for this scenario is {scenario.savedata.playerName}");
+                    GUI.Text.WriteLine("Do you wish to change this name or continue?");
                     string nameChoice = GUI.displayCommands(new string[] { "CHANGE", "CONTINUE" }, 0, false, true, "");
                     if (nameChoice == "CHANGE")
                     {
-                        Console.WriteLine("Please enter a name.");
-                        scenario.savedata.playerName = Console.ReadLine();
+                        GUI.Text.WriteLine("Please enter a name.");
+                        scenario.savedata.playerName = GUI.Text.ReadLine();
                     }
-                    Console.WriteLine($"Name {scenario.savedata.playerName} selected.");
-                    Text.typeWriter("Saving...");
+                    GUI.Text.WriteLine($"Name {scenario.savedata.playerName} selected.");
+                    GUI.Text.typeWriter("Saving...");
                     save(scenario, scenarioName);
                 }
-                Console.WriteLine($"{scenarioName} Scenario ready.");
+                GUI.Text.WriteLine($"{scenarioName} Scenario ready.");
             }
             public static void save(Scenario scenarioData, string scenarioName)
             {
@@ -78,10 +89,10 @@ namespace The_Firebox_Paradigm_Revamped
                 while (true)
                 {
                     int currentRoom = scenario.savedata.room;
-                    Console.WriteLine();
-                    //Console.WriteLine(scenario.savedata.curEvent);
+                    GUI.Text.WriteLine();
+                    //GUI.Text.WriteLine(scenario.savedata.curEvent);
                     scenario.rooms[currentRoom].describe();
-                    //Console.WriteLine(scenario.savedata.curEvent);
+                    //GUI.Text.WriteLine(scenario.savedata.curEvent);
                     scenario.rooms[currentRoom].handleInput();
                 }
             }
@@ -170,7 +181,7 @@ namespace The_Firebox_Paradigm_Revamped
                             }
                             if (!write)
                             {
-                                Console.WriteLine();
+                                GUI.Text.WriteLine();
                             }
                         }
                     }
@@ -223,8 +234,8 @@ namespace The_Firebox_Paradigm_Revamped
                                 availableActions.Add(command);
                             }
                         }
-                        Console.WriteLine("What do you do?");
-                        userInput = Console.ReadLine().ToUpper();
+                        GUI.Text.WriteLine("What do you do?");
+                        userInput = GUI.Text.ReadLine().ToUpper();
                         valid = KeyTools.String.Search.linear(userInput, availableActions);
                         if (!valid)
                         {
@@ -282,7 +293,7 @@ namespace The_Firebox_Paradigm_Revamped
                                 Action selected = new Action();
                                 while (!contained)
                                 {
-                                    string response = Console.ReadLine();
+                                    string response = GUI.Text.ReadLine();
                                     for (int i = 0; i < current.answers.Count; i++)
                                     {
                                         for (int j = 0; j < current.answers[i].commands.Count; j++)
@@ -325,10 +336,10 @@ namespace The_Firebox_Paradigm_Revamped
 
                             /*
                              * debug print block
-                             * Console.WriteLine(current.newEvent);
-                             * Console.WriteLine(scenario.savedata.curEvent);
-                             * Console.WriteLine(scenario.rooms[scenario.savedata.room].events[current.newEvent].description[0]);
-                             * Console.WriteLine(scenario.savedata.curEvent);
+                             * GUI.Text.WriteLine(current.newEvent);
+                             * GUI.Text.WriteLine(scenario.savedata.curEvent);
+                             * GUI.Text.WriteLine(scenario.rooms[scenario.savedata.room].events[current.newEvent].description[0]);
+                             * GUI.Text.WriteLine(scenario.savedata.curEvent);
                              */
                             scenario.savedata.curEvent = current.newEvent;
                             break;
@@ -410,81 +421,139 @@ namespace The_Firebox_Paradigm_Revamped
             }
         }
     }
-    public class Text
-    {
-        static bool typeWrite = true;
-        public static void typeWriter(string message, bool skippable = true, int time = 100)
-        {
-            int initLeft = Console.GetCursorPosition().Left;
-            int initTop = Console.GetCursorPosition().Top;
-            if (typeWrite)
-            {
-                for (int i = 0; i < message.Length; i++)
-                {
-                    if (skippable)
-                    {
-                        if (Console.KeyAvailable)
-                        {
-                            bool skipped = false;
-                            switch (Console.ReadKey().Key)
-                            {
-                                default:
-                                    skipped = true;
-                                    break;
-                            }
-                            if (skipped)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    Console.Write(message[i]);
-                    Thread.Sleep(time);
-                }
-            }
-            Console.SetCursorPosition(initLeft, initTop);
-            Console.WriteLine(message);
-            if (typeWrite)
-            {
-                Thread.Sleep(500);
-            }
-        }
-        public static void colour(string message, ConsoleColor colour, bool reset = true)
-        {
-            Console.ForegroundColor = colour;
-            Console.WriteLine(message);
-            if (reset)
-            {
-                Console.ResetColor();
-            }
-        }
-        public static string sentenceCase(string sentence)
-        {
-            sentence = sentence.ToLower();
-            char[] components = sentence.ToCharArray();
-            string[] manageableComponents = new string[components.Length];
-            for (int i = 0; i < components.Length; i++)
-            {
-                manageableComponents[i] = Convert.ToString(components[i]);
-            }
-            manageableComponents[0] = manageableComponents[0].ToUpper();
-            string output = "";
-            for (int i = 0; i < components.Length; i++)
-            {
-                output += manageableComponents[i];
-            }
-            return output;
-        }
-        public static void back()
-        {
-            Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
-        }
-    }
     public class GUI
     {
+        public class Text
+        {
+            public const string CLS = "\u001bc\x1b[3J";         //clear screen
+            public const string RESET = "\x1B[0m";             //set format to default
+            public const string BOLD = "\x1B[1m";              //bold text
+            public const string DISABLED = "\x1B[2m";          //darkens, based on color
+            public const string ITALICS = "\x1B[3m";           //italics text
+            public const string UNDERLINE = "\x1B[4m";         //underline text
+            public const string BLINK = "\x1B[5m";             //blinks from set color to darker set color.
+            public const string INVERT = "\x1B[7m";            //inverts background with foreground.
+            public const string STRIKE = "\x1B[9m";            //strikethrough the text
+            public const string FGCOLOR = "\u001b[38;5;3m";    //38 - forground, 3m - yellow (256 color palette)
+            public const string BGCOLOR = "\u001b[48;5;1m";    //48 - background, 1m - red (256 color palette)
+
+            static bool typeWrite = true;
+            
+            public static void typeWriter(string message, bool skippable = true, int time = 100)
+            {
+                int initLeft = Console.GetCursorPosition().Left;
+                int initTop = Console.GetCursorPosition().Top;
+                if (typeWrite)
+                {
+                    for (int i = 0; i < message.Length; i++)
+                    {
+                        if (skippable)
+                        {
+                            if (Console.KeyAvailable)
+                            {
+                                bool skipped = false;
+                                switch (Console.ReadKey().Key)
+                                {
+                                    default:
+                                        skipped = true;
+                                        break;
+                                }
+                                if (skipped)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        Console.Write(message[i]);
+                        Thread.Sleep(time);
+                    }
+                }
+                Console.SetCursorPosition(initLeft, initTop);
+                GUI.Text.WriteLine(message);
+                if (typeWrite)
+                {
+                    Thread.Sleep(500);
+                }
+            }
+            public static void colour(string message, ConsoleColor colour, bool reset = true)
+            {
+                Console.ForegroundColor = colour;
+                GUI.Text.WriteLine(message);
+                if (reset)
+                {
+                    Console.ResetColor();
+                }
+            }
+            public static string sentenceCase(string sentence)
+            {
+                sentence = sentence.ToLower();
+                char[] components = sentence.ToCharArray();
+                string[] manageableComponents = new string[components.Length];
+                for (int i = 0; i < components.Length; i++)
+                {
+                    manageableComponents[i] = Convert.ToString(components[i]);
+                }
+                manageableComponents[0] = manageableComponents[0].ToUpper();
+                string output = "";
+                for (int i = 0; i < components.Length; i++)
+                {
+                    output += manageableComponents[i];
+                }
+                return output;
+            }
+            public static void back()
+            {
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
+            }
+            public static void Header(string title, string subtitle = "", ConsoleColor foreGroundColor = ConsoleColor.White, int windowWidthSize = 90)
+            {
+                Console.Title = title + (subtitle != "" ? " - " + subtitle : "");
+                string titleContent = CenterText(title, "║");
+                string subtitleContent = CenterText(subtitle, "║");
+                string borderLine = new String('═', windowWidthSize - 2);
+
+                Console.ForegroundColor = foreGroundColor;
+                Console.WriteLine($"╔{borderLine}╗");
+                Console.WriteLine(titleContent);
+                if (!string.IsNullOrEmpty(subtitle))
+                {
+                    Console.WriteLine(subtitleContent);
+                }
+                Console.WriteLine($"╚{borderLine}╝");
+                Console.ResetColor();
+            }
+            public static string CenterText(string content, string decorationString = "", int windowWidthSize = -1)
+            {
+                if (windowWidthSize == -1)
+                {
+                    windowWidthSize = Console.WindowWidth;
+                }
+                int windowWidth = windowWidthSize - (2 * decorationString.Length);
+                return String.Format(decorationString + "{0," + ((windowWidth / 2) + (content.Length / 2)) + "}{1," + (windowWidth - (windowWidth / 2) - (content.Length / 2) + decorationString.Length) + "}", content, decorationString);
+            }
+            static int lastStringStart = 0;
+            public static void WriteLine(string? content = null)
+            {
+                if (!string.IsNullOrEmpty(content))
+                {
+                    lastStringStart = CenterText(content).IndexOf(content);
+                    Console.WriteLine(CenterText(content));
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+            }
+            public static string ReadLine()
+            {
+                Console.SetCursorPosition(lastStringStart,Console.GetCursorPosition().Top);
+                return Console.ReadLine();
+            }
+
+        }
         public static string displayCommands(string[] commands, int selection, bool pause = false, bool clear = true, string message = "Please choose an option:")
         {
-            Console.WriteLine();
+            GUI.Text.WriteLine();
             bool selected = false;
             while (!selected)
             {
@@ -496,7 +565,7 @@ namespace The_Firebox_Paradigm_Revamped
                 {
                     Console.SetCursorPosition(0, Console.GetCursorPosition().Top - 2);
                 }
-                Console.WriteLine(message);
+                GUI.Text.WriteLine(message);
                 for (int i = 0; i < commands.Length; i++)
                 {
                     if (i == selection)
@@ -511,7 +580,7 @@ namespace The_Firebox_Paradigm_Revamped
                     }
                     Console.Write(" ");
                 }
-                Console.WriteLine();
+                GUI.Text.WriteLine();
                 ConsoleKeyInfo Input = Console.ReadKey();
                 switch (Input.Key)
                 {
@@ -540,10 +609,67 @@ namespace The_Firebox_Paradigm_Revamped
         {
             if (shout)
             {
-                Text.colour("Exception Caught", ConsoleColor.Red);
+                GUI.Text.colour("Exception Caught", ConsoleColor.Red);
             }
-            Text.colour(msg, ConsoleColor.Red);
+            GUI.Text.colour(msg, ConsoleColor.Red);
             Console.ResetColor();
+        }
+    }
+
+    class PrettyPrint
+    {
+        public static uint delay = 20;
+
+        private static Random random = new Random();
+        private static List<(int, int)> obscuredPositions = new List<(int, int)>();
+
+        private static readonly string POS = "\x1b[{1};{0}H";
+        private static readonly string SAVE = "\x1b[s";
+        private static readonly string RESTORE = "\x1b[u";
+
+        public static void WriteObscured(string text, char obfuscated)
+        {
+            foreach (char chr in text)
+            {
+                if (chr == obfuscated)
+                    obscuredPositions.Add((++Console.CursorLeft, Console.CursorTop + 1));
+                else
+                    Console.Write(chr);
+            }
+            Console.WriteLine();
+        }
+
+        public static string ReadLine()
+        {
+            using (var reader = new StreamReader(Console.OpenStandardInput()))
+            {
+                Task<string> readlineTask = reader.ReadLineAsync();
+
+                while (!readlineTask.IsCompleted)
+                {
+                    using (var writer = new DisposableWrite())
+                        foreach ((int x, int y) in obscuredPositions)
+                            writer.WriteChar(RandomChar(), x, y);
+                    Task.Delay((int)delay).Wait();
+                }
+
+                return readlineTask.Result;
+            }
+        }
+
+        private static char RandomChar()
+            => (char)(33 + random.Next(94));
+
+        private class DisposableWrite : IDisposable
+        {
+            public DisposableWrite()
+                => Console.CursorVisible = false;
+
+            public void Dispose()
+                => Console.CursorVisible = true;
+
+            public void WriteChar(char chr, int x, int y)
+                => Console.Write(SAVE + POS + "{2}" + RESTORE, x, y, chr);
         }
     }
 }
