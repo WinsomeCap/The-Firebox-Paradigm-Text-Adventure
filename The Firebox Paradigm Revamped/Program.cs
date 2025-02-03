@@ -11,9 +11,14 @@ namespace The_Firebox_Paradigm_Revamped
     {
 
         /* TODO:
-     	* [ ] - NON-TERMINATING NONPUNITIVE INPUT
+     	* [x] - NON-TERMINATING NONPUNITIVE INPUT
      	* [ ] - INVENTORY SYSTEM
      	* [ ] - LOOT COMMAND
+     	* --- PLAYER-DRIVEN SUGGESTIONS ---
+     	* [ ] - EAT STUFF
+     	*   [ ] - BODIES/CORPSES
+     	*   [ ] - ANIMALS E.G. BIRDS
+     	* [ ] - SUICIDE BY BURNING
      	*/
 
         static void Main()
@@ -45,7 +50,7 @@ namespace The_Firebox_Paradigm_Revamped
             string scenarioChoice = GUI.Text.sentenceCase(GUI.displayCommands(scenarios.ToArray(), 0));
             GUI.Text.typeWriter($"Initialising {scenarioChoice} Scenario.");
             Game.load(scenarioChoice);
-            Game.play();
+            Game.play()
         }
         public class Game
         {
@@ -56,7 +61,7 @@ namespace The_Firebox_Paradigm_Revamped
                 string scenarioPath = $"Scenarios/{scenarioName}.json";
                 scenarioRaw = File.ReadAllText(scenarioPath);
                 var scenarioNode = JsonNode.Parse(scenarioRaw);
-                scenario = JsonSerializer.Deserialize<Scenario>(scenarioNode);
+                scenario = scenarioNode.Deserialize<Scenario>();
                 if (scenario.savedata.playerName == "")
                 {
                     scenario.savedata.playerName = scenario.defaults.playerName;
@@ -126,6 +131,7 @@ namespace The_Firebox_Paradigm_Revamped
 
             public class Room
             {
+                public static Room LastRoom { get; set; }
                 public string name { get; set; }
                 public List<int> connections { get; set; }
                 public List<string> description { get; set; }
@@ -158,12 +164,34 @@ namespace The_Firebox_Paradigm_Revamped
                         int overallTime = Convert.ToInt32(input);
                         Thread.Sleep(overallTime);
                     }
+                    else if (input.StartsWith("/BACKGROUND/"))
+                    {
+                        List<string> inputList = input.Split('/').ToList();
+                        inputList.RemoveAt(0);
+                        string colour = inputList[1].Replace("#", "");
+                        byte[] colours = Convert.FromHexString(colour);
+                        Console.BackgroundColor = GUI.ClosestConsoleColor(colours[0], colours[1], colours[2]);
+                    }
+                    else if (input == "/CLEAR/")
+                    {
+                        Console.Clear();
+                    }
+                    else if (input == "/HANG/")
+                    {
+                        printContext("PLEASE PRESS ANY KEY:");
+                        Console.ReadLine();
+                    }
                     else
                     {
-                        bool write = input.StartsWith("/write/");
+                        if (LastRoom != null)
+                        {
+                            input = input.Replace("/PREV/", LastRoom.name.ToUpper());
+                        }
+                        input = input.Replace("/NAME/", scenario.savedata.playerName);
+                        bool write = input.StartsWith("/WRITE/");
                         if (write)
                         {
-                            input = input.Replace("/write/", "");
+                            input = input.Replace("/WRITE/", "");
                         }
                         string[] lines = input.Split(Environment.NewLine);
                         for (int i = 0; i < lines.Length; i++)
@@ -267,6 +295,7 @@ namespace The_Firebox_Paradigm_Revamped
                             }
                             break;
                         case "warp":
+                            LastRoom = scenario.rooms[scenario.savedata.room];
                             scenario.savedata.room = Convert.ToInt32(actions[index].room);
                             break;
                         case "question":
@@ -381,6 +410,17 @@ namespace The_Firebox_Paradigm_Revamped
                     bool found = false;
                     for (int i = 0; i < list.Count; i++)
                     {
+                        if (list[i].StartsWith("/CONTAINS/"))
+                        {
+                            string[] broken = list[i].Split("/");
+                            for (int j = 0; j < broken.Length; j++)
+                            {
+                                if (value.Contains(broken[j]))
+                                {
+                                    found = true;
+                                }
+                            }
+                        }
                         if (list[i] == value)
                         {
                             found = true;
@@ -614,6 +654,28 @@ namespace The_Firebox_Paradigm_Revamped
             GUI.Text.colour(msg, ConsoleColor.Red);
             Console.ResetColor();
         }
+        //ConsoleColor approximation of Hex codes
+        //https://stackoverflow.com/a/12340136/10315352
+        public static ConsoleColor ClosestConsoleColor(byte r, byte g, byte b)
+        {
+            ConsoleColor ret = 0;
+            double rr = r, gg = g, bb = b, delta = double.MaxValue;
+
+            foreach (ConsoleColor cc in Enum.GetValues(typeof(ConsoleColor)))
+            {
+                var n = Enum.GetName(typeof(ConsoleColor), cc);
+                var c = System.Drawing.Color.FromName(n == "DarkYellow" ? "Orange" : n); // bug fix
+                var t = Math.Pow(c.R - rr, 2.0) + Math.Pow(c.G - gg, 2.0) + Math.Pow(c.B - bb, 2.0);
+                if (t == 0.0)
+                    return cc;
+                if (t < delta)
+                {
+                    delta = t;
+                    ret = cc;
+                }
+            }
+            return ret;
+        }
     }
 
     class PrettyPrint
@@ -673,5 +735,3 @@ namespace The_Firebox_Paradigm_Revamped
         }
     }
 }
-
-

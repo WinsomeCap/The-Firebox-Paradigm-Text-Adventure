@@ -1,44 +1,43 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net7.0": {}
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Anthony stark\\.nuget\\packages\\": {},
+    "C:\\Users\\st2024072\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Anthony stark\\source\\repos\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped.csproj",
+      "projectUniqueName": "U:\\Visual Studio 2022\\The Source\\repos\\VanityNeaTesting\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped.csproj",
       "projectName": "The Firebox Paradigm Revamped",
-      "projectPath": "C:\\Users\\Anthony stark\\source\\repos\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped.csproj",
-      "packagesPath": "C:\\Users\\Anthony stark\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Anthony stark\\source\\repos\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped\\obj\\",
+      "projectPath": "U:\\Visual Studio 2022\\The Source\\repos\\VanityNeaTesting\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped.csproj",
+      "packagesPath": "C:\\Users\\st2024072\\.nuget\\packages\\",
+      "outputPath": "U:\\Visual Studio 2022\\The Source\\repos\\VanityNeaTesting\\The Firebox Paradigm Revamped\\The Firebox Paradigm Revamped\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Anthony stark\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\st2024072\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "net7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "projectReferences": {}
         }
       },
@@ -49,8 +48,8 @@
       }
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "net7.0": {
+        "targetAlias": "net7.0",
         "imports": [
           "net461",
           "net462",
@@ -67,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
