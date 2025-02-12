@@ -11,7 +11,7 @@
   },
   "rooms": [
     {
-      "name": "Player's house",
+      "name": "House",
       "connections": [
         1,
         2
@@ -41,17 +41,42 @@
         },
         {
           "commands": [
-            "OPEN DOOR"
+            "OPEN DOOR",
+            "OPEN THE DOOR"
           ],
-          "type": "warp",
-          "description": null,
-          "room": 1,
-          "newEvent": 0,
-          "curEvent": -1,
-          "options": null,
-          "answers": null,
-          "changeRoom": false
-        },
+          "type": "question",
+          "description": [
+            "Open the DOOR and enter the VILLAGE?"
+          ],
+          "room": null,
+          "newEvent": -1,
+          "options": [
+            "YES",
+            "NO"
+          ],
+          "answers": [
+            {
+              "type": "answer",
+              "description": [
+                "You push open the heavy wooden DOOR."
+              ],
+              "changeRoom": true,
+              "newRoom": 1,
+              "newEvent": 1,
+              "answers": null
+            },
+            {
+              "type": "answer",
+              "description": [
+                ""
+              ],
+              "changeRoom": false,
+              "newRoom": 0,
+              "newEvent": -1,
+              "answers": null
+            }
+			]
+		},
         {
           "commands": [
             "CHECK BED",
@@ -439,7 +464,7 @@
         {
           "type": "pre",
           "description": [
-            "You push open the heavy wooden door."
+            "You push open the heavy wooden door. DO NOT USE THIS EVENT." 
           ],
           "changeRoom": false,
           "newRoom": 0,
@@ -495,7 +520,6 @@
           ],
           "room": null,
           "newEvent": -1,
-          "curEvent": -1,
           "options": null,
           "answers": null,
           "changeRoom": false
@@ -512,7 +536,6 @@
           ],
           "room": null,
           "newEvent": -1,
-          "curEvent": -1,
           "options": null,
           "answers": null,
           "changeRoom": false
@@ -554,7 +577,6 @@
           ],
           "room": null,
           "newEvent": -1,
-          "curEvent": -1,
           "options": [
             "\"WHY AM I HERE?\"",
             "\"WHY HAVE YOU COME?\"",
@@ -796,7 +818,18 @@
           "options": null,
           "answers": null,
           "changeRoom": false
-        }
+        },
+		{
+			"type": "describe",
+			"commands": [
+			  "JUMP ON PYRE",
+			  "JUMP ON THE PYRE",
+			  "SUICIDE"
+			],
+			"description": [
+			  "YOU JUMP ONTO THE PYRE AND DIE. ARE YOU PROUD OF YOURSELF? /DIE/"
+			]
+		}
       ],
       "events": [
         {
@@ -811,5 +844,6 @@
         }
       ]
     }
-  ]
+  ],
+  "universalCommands":[]
 }

@@ -1,15 +1,15 @@
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.exe
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.deps.json
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.runtimeconfig.json
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.dll
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.pdb
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.csproj.AssemblyReference.cache
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.AssemblyInfoInputs.cache
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.AssemblyInfo.cs
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.csproj.CoreCompileInputs.cache
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.dll
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\refint\The Firebox Paradigm Revamped.dll
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.pdb
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.genruntimeconfig.cache
-C:\Users\Anthony stark\source\repos\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\ref\The Firebox Paradigm Revamped.dll
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.exe
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.deps.json
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.runtimeconfig.json
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.dll
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\bin\Debug\net6.0\The Firebox Paradigm Revamped.pdb
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.csproj.AssemblyReference.cache
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.GeneratedMSBuildEditorConfig.editorconfig
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.AssemblyInfoInputs.cache
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.AssemblyInfo.cs
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.csproj.CoreCompileInputs.cache
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.dll
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\refint\The Firebox Paradigm Revamped.dll
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.pdb
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\The Firebox Paradigm Revamped.genruntimeconfig.cache
+U:\Visual Studio 2022\The Source\repos\VanityNeaTesting\The Firebox Paradigm Revamped\The Firebox Paradigm Revamped\obj\Debug\net6.0\ref\The Firebox Paradigm Revamped.dll

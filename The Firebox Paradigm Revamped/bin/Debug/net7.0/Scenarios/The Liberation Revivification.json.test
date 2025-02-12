@@ -1,0 +1,50 @@
+{
+  "defaults": {
+    "playerName": "KAIA",
+    "room": 0,
+    "curEvent": 0
+  },
+  "savedata": {
+    "playerName": "",
+    "room": -1,
+    "curEvent": 0
+  },
+  "rooms": [
+    {
+      "name": "/NULL/",
+      "connections": [
+        1,
+        2
+      ],
+      "description": [
+        "/NULL/",
+        "/NULL/",
+        "/NULL/",
+        "/NULL/"
+      ],
+      "actions": [
+        {
+          "commands": [
+            "/NULL/",
+            "/NULL/"
+          ],
+          "type": "describe",
+          "description": [
+            "/NULL/"
+          ],
+          "room": null,
+          "newEvent": -1,
+          "curEvent": -1,
+          "options": null,
+          "answers": null,
+          "changeRoom": false
+        }
+	  ],
+      "events": [
+        {
+          "type": "pre",
+          "description": []
+		}
+		]
+	}
+}

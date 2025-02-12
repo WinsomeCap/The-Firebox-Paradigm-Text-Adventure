@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using static The_Firebox_Paradigm_Revamped.Program.Game;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
+
 
 namespace The_Firebox_Paradigm_Revamped
 {
@@ -18,21 +20,20 @@ namespace The_Firebox_Paradigm_Revamped
      	* [ ] - EAT STUFF
      	*   [ ] - BODIES/CORPSES
      	*   [ ] - ANIMALS E.G. BIRDS
-     	* [ ] - SUICIDE BY BURNING
+     	* [x] - SUICIDE BY BURNING
      	*/
-
-        static void Main()
+        static void Main(string[] args)
         {
             Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             GUI.Text.Header("∫arħen daħ Mørlaħ.");
-            Console.WriteLine();
-            PrettyPrint.WriteObscured("It seems we have a problem",'e');
+            /*Console.WriteLine();
+            PrettyPrint.WriteObscured("It seems we have a problem", 'e');
             Console.WriteLine();
             PrettyPrint.ReadLine();
             Console.WriteLine();
-            PrettyPrint.WriteObscured("It seems we have a problem",'e');
-            Console.WriteLine();
+            PrettyPrint.WriteObscured("It seems we have a problem", 'e');
+            Console.WriteLine();*/
             GUI.Text.WriteLine("Loading game files.");
             string[] files = Directory.GetFiles("Scenarios");
             List<string> scenarios = new List<string>();
@@ -50,22 +51,27 @@ namespace The_Firebox_Paradigm_Revamped
             string scenarioChoice = GUI.Text.sentenceCase(GUI.displayCommands(scenarios.ToArray(), 0));
             GUI.Text.typeWriter($"Initialising {scenarioChoice} Scenario.");
             Game.load(scenarioChoice);
-            Game.play()
+            GUI.Maximize();
+
+            Console.Clear();
+            GUI.Text.Header(scenarioChoice.ToUpper());
+            Thread.Sleep(1000);
+            Game.play();
         }
         public class Game
         {
             static string scenarioRaw;
             static Scenario scenario;
+            static bool alive = true;
             public static void load(string scenarioName)
             {
                 string scenarioPath = $"Scenarios/{scenarioName}.json";
                 scenarioRaw = File.ReadAllText(scenarioPath);
                 var scenarioNode = JsonNode.Parse(scenarioRaw);
                 scenario = scenarioNode.Deserialize<Scenario>();
-                if (scenario.savedata.playerName == "")
+                if (scenario.savedata.playerName == "" || scenario.savedata.playerName == null)
                 {
-                    scenario.savedata.playerName = scenario.defaults.playerName;
-                    GUI.Text.WriteLine($"The default name for this scenario is {scenario.savedata.playerName}");
+                    GUI.Text.WriteLine($"The default name for this scenario is {scenario.defaults.playerName}");
                     GUI.Text.WriteLine("Do you wish to change this name or continue?");
                     string nameChoice = GUI.displayCommands(new string[] { "CHANGE", "CONTINUE" }, 0, false, true, "");
                     if (nameChoice == "CHANGE")
@@ -78,6 +84,8 @@ namespace The_Firebox_Paradigm_Revamped
                     save(scenario, scenarioName);
                 }
                 GUI.Text.WriteLine($"{scenarioName} Scenario ready.");
+                GUI.Text.colour("Please press a key", GUI.ClosestConsoleColor("00a9e9"));
+                Console.ReadKey();
             }
             public static void save(Scenario scenarioData, string scenarioName)
             {
@@ -91,307 +99,389 @@ namespace The_Firebox_Paradigm_Revamped
                 {
                     scenario.savedata.room = scenario.defaults.room;
                 }
-                while (true)
+                while (alive)
                 {
                     int currentRoom = scenario.savedata.room;
                     GUI.Text.WriteLine();
                     //GUI.Text.WriteLine(scenario.savedata.curEvent);
                     scenario.rooms[currentRoom].describe();
                     //GUI.Text.WriteLine(scenario.savedata.curEvent);
+                    DrawMap();
                     scenario.rooms[currentRoom].handleInput();
                 }
             }
 
-            //Game objects
-            public class Event
-            {
-                public string type { get; set; }
-                public List<string> description { get; set; }
-                public bool changeRoom { get; set; }
-                public int newRoom { get; set; }
-                public int newEvent { get; set; }
-                public List<Action>? answers { get; set; }
-            }
-            public class Action
-            {
-                public Action()
+            #region Game Objects
+                public class Event
                 {
-
+                    public string type { get; set; }
+                    public List<string> description { get; set; }
+                    public bool changeRoom { get; set; }
+                    public int newRoom { get; set; }
+                    public int newEvent { get; set; }
+                    public List<Action>? answers { get; set; }
                 }
-                public List<string> commands { get; set; }
-                public string type { get; set; }
-                public List<string>? description { get; set; }
-                public int? room { get; set; }
-                public int newEvent { get; set; } = -1;
-                public int curEvent { get; set; } = -1;
-                public List<string>? options { get; set; }
-                public List<Event>? answers { get; set; }
-                public bool changeRoom { get; set; } = false;
-            }
-
-            public class Room
-            {
-                public static Room LastRoom { get; set; }
-                public string name { get; set; }
-                public List<int> connections { get; set; }
-                public List<string> description { get; set; }
-                public List<Action> actions { get; set; }
-                public List<Event> events { get; set; }
-                public static List<int> curEvents = new List<int>();
-                public void printContext(string input)
+                public class Action
                 {
-                    if (input.StartsWith("/t="))
+                    public Action()
                     {
-                        input = input.Replace("/t=", "");
+
+                    }
+                    public List<string> commands { get; set; }
+                    public string type { get; set; }
+                    public List<string>? description { get; set; }
+                    public int? room { get; set; }
+                    public int newEvent { get; set; } = -1;
+                    public int curEvent { get; set; } = -1;
+                    public List<string>? options { get; set; }
+                    public List<Event>? answers { get; set; }
+                    public bool changeRoom { get; set; } = false;
+                }
+
+                public class Room
+                {
+                    public static Room LastRoom { get; set; }
+                    public string name { get; set; }
+                    public List<int> connections { get; set; }
+                    public List<string> description { get; set; }
+                    public List<Action> actions { get; set; }
+                    public List<Event> events { get; set; }
+                    public static List<int> curEvents = new List<int>();
+                    public void printContext(string input)
+                    {
+                        bool youDied = false;
+                        if (input.EndsWith("/DIE/"))
+                        {
+                            youDied = true;
+                            input = input.Replace("/DIE/", "");
+                        }
+                        if (input.StartsWith("/t="))
+                        {
+                            input = input.Replace("/t=", "");
+                            bool valid = false;
+                            int n = 0;
+                            while (!valid)
+                            {
+                                if (n < input.Length - 1)
+                                {
+                                    if (input[n + 1] == '/')
+                                    {
+                                        input = input.Remove(n + 1);
+                                        valid = false;
+                                    }
+                                    n++;
+                                }
+                                else
+                                {
+                                    valid = true;
+                                }
+                            }
+                            int overallTime = Convert.ToInt32(input);
+                            Thread.Sleep(overallTime);
+                        }
+                        else if (input.StartsWith("/BACKGROUND/"))
+                        {
+                            List<string> inputList = input.Split('/').ToList();
+                            inputList.RemoveAt(0);
+                            string colour = inputList[1].Replace("#", "");
+                            byte[] colours = Convert.FromHexString(colour);
+                            Console.BackgroundColor = GUI.ClosestConsoleColor(colours[0], colours[1], colours[2]);
+                        }
+                        else if (input.StartsWith("/HEADER/"))
+                        {
+                            List<string> inputList = input.Split('/').ToList();
+                            inputList.RemoveAt(0);
+                            inputList.RemoveAt(0);
+                            GUI.Text.Header(inputList[0]);
+                        }
+                        else if (input.StartsWith("/DIVIDER/"))
+                        {
+                            for (int i = 0; i < Console.WindowWidth; i++)
+                            {
+                                Console.Write($"{GUI.Text.UNDERLINE} {GUI.Text.RESET}");
+                            }
+                        }
+                        else if (input == "/CLEAR/")
+                        {
+                            Console.Clear();
+                        }
+                        else if (input == "/HANG/")
+                        {
+                            printContext("PLEASE PRESS ANY KEY:");
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+                            if (LastRoom != null)
+                            {
+                                input = input.Replace("/PREV/", LastRoom.name.ToUpper());
+                            }
+                            input = input.Replace("/NAME/", scenario.savedata.playerName);
+                            bool write = input.StartsWith("/WRITE/");
+                            if (write)
+                            {
+                                input = input.Replace("/WRITE/", "");
+                            }
+                            string[] lines = input.Split(Environment.NewLine);
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+                                string[] words = lines[i].Split(" ");
+                                for (int j = 0; j < words.Length; j++)
+                                {
+                                    if (words[j] == words[j].ToUpper() && words[j].Length > 1)
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Cyan;
+                                    }
+                                    Console.Write(words[j]);
+                                    Console.Write(" ");
+                                    Console.ResetColor();
+                                }
+                                if (!write)
+                                {
+                                    GUI.Text.WriteLine();
+                                }
+                            }
+                        }
+                        Game.alive = !youDied;
+                        if (youDied)
+                        {
+                            GUI.PrintErr("======================YOU HAVE PERISHED======================", false);
+                        }
+                    }
+                    void showEvents(string type)
+                    {
+                        curEvents.Clear();
+                        if (scenario.savedata.curEvent >= 0)
+                        {
+                            curEvents.Add(scenario.savedata.curEvent);
+                            Event curEvent = events[scenario.savedata.curEvent];
+                            if (curEvent.type == type)
+                            {
+                                for (int i = 0; i < curEvent.description.Count; i++)
+                                {
+                                    printContext(curEvent.description[i]);
+                                    if (curEvent.changeRoom)
+                                    {
+                                        scenario.savedata.room = curEvent.newRoom;
+                                    }
+                                    scenario.savedata.curEvent = curEvent.newEvent;
+                                }
+                            }
+                        }
+                    }
+                    public void describe()
+                    {
+                        if (scenario.savedata.curEvent == -2)
+                        {
+                            scenario.savedata.curEvent = scenario.defaults.curEvent;
+                        }
+                        showEvents("pre");
+                        for (int i = 0; i < description.Count; i++)
+                        {
+                            printContext(description[i]);
+                        }
+                        showEvents("post");
+                    }
+                    public void handleInput()
+                    {
+                        string userInput = "";
+                        List<string> availableActions = new List<string>();
+                        List<string> universalActions = new List<string>();
                         bool valid = false;
-                        int n = 0;
+                        bool universal = false;
                         while (!valid)
                         {
-                            if (n < input.Length - 1)
+                            for (int i = 0; i < actions.Count; i++)
                             {
-                                if (input[n + 1] == '/')
+                                foreach (string command in actions[i].commands)
                                 {
-                                    input = input.Remove(n + 1);
-                                    valid = false;
+                                    availableActions.Add(command);
                                 }
-                                n++;
                             }
-                            else
+                            for (int i = 0; i < scenario.universalCommands.Count; i++)
                             {
-                                valid = true;
-                            }
-                        }
-                        int overallTime = Convert.ToInt32(input);
-                        Thread.Sleep(overallTime);
-                    }
-                    else if (input.StartsWith("/BACKGROUND/"))
-                    {
-                        List<string> inputList = input.Split('/').ToList();
-                        inputList.RemoveAt(0);
-                        string colour = inputList[1].Replace("#", "");
-                        byte[] colours = Convert.FromHexString(colour);
-                        Console.BackgroundColor = GUI.ClosestConsoleColor(colours[0], colours[1], colours[2]);
-                    }
-                    else if (input == "/CLEAR/")
-                    {
-                        Console.Clear();
-                    }
-                    else if (input == "/HANG/")
-                    {
-                        printContext("PLEASE PRESS ANY KEY:");
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        if (LastRoom != null)
-                        {
-                            input = input.Replace("/PREV/", LastRoom.name.ToUpper());
-                        }
-                        input = input.Replace("/NAME/", scenario.savedata.playerName);
-                        bool write = input.StartsWith("/WRITE/");
-                        if (write)
-                        {
-                            input = input.Replace("/WRITE/", "");
-                        }
-                        string[] lines = input.Split(Environment.NewLine);
-                        for (int i = 0; i < lines.Length; i++)
-                        {
-                            string[] words = lines[i].Split(" ");
-                            for (int j = 0; j < words.Length; j++)
-                            {
-                                if (words[j] == words[j].ToUpper() && words[j].Length > 1)
+                                foreach (string command in scenario.universalCommands[i].commands)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Cyan;
+                                    universalActions.Add(command);
                                 }
-                                Console.Write(words[j]);
-                                Console.Write(" ");
-                                Console.ResetColor();
                             }
-                            if (!write)
+                            GUI.Text.WriteLine("What do you do?");
+                            userInput = GUI.Text.ReadLine().ToUpper();
+                            valid = KeyTools.String.Search.linear(userInput, availableActions);
+                            universal = KeyTools.String.Search.linear(userInput, universalActions);
+                            valid = (universal) ? true : valid;
+                            if (!valid)
                             {
-                                GUI.Text.WriteLine();
+                                GUI.PrintErr("Command unknown or not implemented. Please try again.", false);
+                                //describe();
                             }
                         }
-                    }
-                }
-                void showEvents(string type)
-                {
-                    curEvents.Clear();
-                    if (scenario.savedata.curEvent >= 0)
-                    {
-                        curEvents.Add(scenario.savedata.curEvent);
-                        Event curEvent = events[scenario.savedata.curEvent];
-                        if (curEvent.type == type)
+                        //nested linear search to find the action with an appropriate command
+                        //standard linear search wouldn't work as the command is a sub-attribute of any action, and we are searching for an index rather than a boolean value
+                        int index = -1;
+                        List<Action> ActionsList = (universal) ? scenario.universalCommands : actions;
+                        for (int i = 0; i < ActionsList.Count; i++)
                         {
-                            for (int i = 0; i < curEvent.description.Count; i++)
+                            if (KeyTools.String.Search.linear(userInput, ActionsList[i].commands))
                             {
-                                printContext(curEvent.description[i]);
-                                if (curEvent.changeRoom)
-                                {
-                                    scenario.savedata.room = curEvent.newRoom;
-                                }
-                                scenario.savedata.curEvent = curEvent.newEvent;
+                                index = i;
+                                break;
                             }
                         }
-                    }
-                }
-                public void describe()
-                {
-                    if (scenario.savedata.curEvent == -2)
-                    {
-                        scenario.savedata.curEvent = scenario.defaults.curEvent;
-                    }
-                    showEvents("pre");
-                    for (int i = 0; i < description.Count; i++)
-                    {
-                        printContext(description[i]);
-                    }
-                    showEvents("post");
-                }
-                public void handleInput()
-                {
-                    string userInput = "";
-                    List<string> availableActions = new List<string>();
-                    bool valid = false;
-                    while (!valid)
-                    {
-                        for (int i = 0; i < actions.Count; i++)
-                        {
-                            foreach (string command in actions[i].commands)
-                            {
-                                availableActions.Add(command);
-                            }
-                        }
-                        GUI.Text.WriteLine("What do you do?");
-                        userInput = GUI.Text.ReadLine().ToUpper();
-                        valid = KeyTools.String.Search.linear(userInput, availableActions);
-                        if (!valid)
+
+                        if (!KeyTools.Int.Search.linear(ActionsList[index].curEvent, curEvents)  && ActionsList[index].curEvent != -1)
                         {
                             GUI.PrintErr("Command unknown or not implemented. Please try again.", false);
-                            //describe();
+                            handleInput();
+
                         }
-                    }
-                    //nested linear search to find the action with an appropriate command
-                    //standard linear search wouldn't work as the command is a sub-attribute of any action, and we are searching for an index rather than a boolean value
-                    int index = -1;
-                    for (int i = 0; i < actions.Count; i++)
-                    {
-                        if (KeyTools.String.Search.linear(userInput, actions[i].commands))
+                        switch (actions[index].type)
                         {
-                            index = i;
-                        }
-                    }
-                    if (!KeyTools.Int.Search.linear(actions[index].curEvent, curEvents) && actions[index].curEvent != -1)
-                    {
-                        GUI.PrintErr("Command unknown or not implemented. Please try again.", false);
-                        handleInput();
-                    }
-                    switch (actions[index].type)
-                    {
-                        case "describe":
-                            for (int i = 0; i < actions[index].description.Count; i++)
-                            {
-                                printContext(actions[index].description[i]);
-                            }
-                            break;
-                        case "warp":
-                            LastRoom = scenario.rooms[scenario.savedata.room];
-                            scenario.savedata.room = Convert.ToInt32(actions[index].room);
-                            break;
-                        case "question":
-                            //GUI.PrintErr("Question triggered", false);
-                            for (int i = 0; i < actions[index].description.Count; i++)
-                            {
-                                printContext(actions[index].description[i]);
-                            }
-                            List<string> options = actions[index].options;
-                            if (KeyTools.String.Search.linear("/INPUT/", options))
-                            {
-                                options.Remove("/INPUT/");
-                                options.Add("SOMETHING ELSE?");
-                            }
-                            string answer = GUI.displayCommands(options.ToArray(), 0, false, true, "");
-                            Event current = actions[index].answers[KeyTools.String.Search.indexOf(answer, actions[index].options)];
-                            for (int i = 0; i < current.description.Count; i++)
-                            {
-                                printContext(current.description[i]);
-                            }
-                            if (answer == "SOMETHING ELSE?")
-                            {
-                                bool contained = false;
-                                Action selected = new Action();
-                                while (!contained)
+                            case "describe":
+                                for (int i = 0; i < ActionsList[index].description.Count; i++)
                                 {
-                                    string response = GUI.Text.ReadLine();
-                                    for (int i = 0; i < current.answers.Count; i++)
+                                    printContext(ActionsList[index].description[i]);
+                                }
+                                break;
+                            case "warp":
+                                LastRoom = scenario.rooms[scenario.savedata.room];
+                                scenario.savedata.room = Convert.ToInt32(actions[index].room);
+                                break;
+                            case "question":
+                                //GUI.PrintErr("Question triggered", false);
+                                for (int i = 0; i < ActionsList[index].description.Count; i++)
+                                {
+                                    printContext(ActionsList[index].description[i]);
+                                }
+                                List<string> options = ActionsList[index].options;
+                                if (KeyTools.String.Search.linear("/INPUT/", options))
+                                {
+                                    options.Remove("/INPUT/");
+                                    options.Add("SOMETHING ELSE?");
+                                }
+                                string answer = GUI.displayCommands(options.ToArray(), 0, false, true, "");
+                                Event current = ActionsList[index].answers[KeyTools.String.Search.indexOf(answer, actions[index].options)];
+                                for (int i = 0; i < current.description.Count; i++)
+                                {
+                                    printContext(current.description[i]);
+                                }
+                                if (answer == "SOMETHING ELSE?")
+                                {
+                                    bool contained = false;
+                                    Action selected = new Action();
+                                    while (!contained)
                                     {
-                                        for (int j = 0; j < current.answers[i].commands.Count; j++)
+                                        string response = GUI.Text.ReadLine();
+                                        for (int i = 0; i < current.answers.Count; i++)
                                         {
-                                            if (response.ToUpper().Contains(current.answers[i].commands[j]))
+                                            for (int j = 0; j < current.answers[i].commands.Count; j++)
                                             {
-                                                try
+                                                if (response.ToUpper().Contains(current.answers[i].commands[j]))
                                                 {
-                                                    selected = current.answers[i];
-                                                    string[] throwTest = selected.description.ToArray();
-                                                    contained = true;
-                                                }
-                                                catch (Exception)
-                                                {
-                                                    contained = false;
+                                                    try
+                                                    {
+                                                        selected = current.answers[i];
+                                                        string[] throwTest = selected.description.ToArray();
+                                                        contained = true;
+                                                    }
+                                                    catch (Exception)
+                                                    {
+                                                        contained = false;
+                                                    }
                                                 }
                                             }
                                         }
+                                        if (!contained)
+                                        {
+                                            GUI.PrintErr("I'm sorry, I don't understand what you said.", false);
+                                        }
                                     }
-                                    if (!contained)
+                                    if (selected.changeRoom)
                                     {
-                                        GUI.PrintErr("I'm sorry, I don't understand what you said.", false);
+                                        scenario.savedata.room = Convert.ToInt32(selected.room);
+                                    }
+                                    current.newEvent = selected.newEvent;
+                                    for (int i = 0; i < selected.description.Count; i++)
+                                    {
+                                        printContext(selected.description[i]);
                                     }
                                 }
-                                if (selected.changeRoom)
-                                {
-                                    scenario.savedata.room = Convert.ToInt32(selected.room);
-                                }
-                                current.newEvent = selected.newEvent;
-                                for (int i = 0; i < selected.description.Count; i++)
-                                {
-                                    printContext(selected.description[i]);
-                                }
-                            }
 
-                            if (current.changeRoom)
-                            {
-                                scenario.savedata.room = current.newRoom;
-                            }
+                                if (current.changeRoom)
+                                {
+                                    scenario.savedata.room = current.newRoom;
+                                }
 
-                            /*
-                             * debug print block
-                             * GUI.Text.WriteLine(current.newEvent);
-                             * GUI.Text.WriteLine(scenario.savedata.curEvent);
-                             * GUI.Text.WriteLine(scenario.rooms[scenario.savedata.room].events[current.newEvent].description[0]);
-                             * GUI.Text.WriteLine(scenario.savedata.curEvent);
-                             */
-                            scenario.savedata.curEvent = current.newEvent;
-                            break;
-                        default:
-                            break;
-                    }
-                    if (actions[index].type != "question")
-                    {
-                        scenario.savedata.curEvent = actions[index].newEvent;
+                                /*
+                                 * debug print block
+                                 * GUI.Text.WriteLine(current.newEvent);
+                                 * GUI.Text.WriteLine(scenario.savedata.curEvent);
+                                 * GUI.Text.WriteLine(scenario.rooms[scenario.savedata.room].events[current.newEvent].description[0]);
+                                 * GUI.Text.WriteLine(scenario.savedata.curEvent);
+                                 */
+                                scenario.savedata.curEvent = current.newEvent;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (actions[index].type != "question")
+                        {
+                            scenario.savedata.curEvent = ActionsList[index].newEvent;
+                        }
                     }
                 }
-            }
-            public class Scenario
+                public class Scenario
+                {
+                    public Savedata defaults { get; set; }
+                    public Savedata savedata { get; set; }
+                    public List<Room> rooms { get; set; }
+                    public List<Action>? universalCommands { get; set; }
+                }
+                public class Savedata
+                {
+                    public string playerName { get; set; }
+                    public int room { get; set; }
+                    public int curEvent { get; set; }
+                }
+            #endregion
+
+            public static void DrawMap()
             {
-                public Savedata defaults { get; set; }
-                public Savedata savedata { get; set; }
-                public List<Room> rooms { get; set; }
-            }
-            public class Savedata
-            {
-                public string playerName { get; set; }
-                public int room { get; set; }
-                public int curEvent { get; set; }
+                int Xratio = 10;
+                int Yratio = 5;
+                int[][] directions = new int[3][] {
+                    new int[]{ -1, 1, -1 },
+                    new int[]{ 4, 0, 2 },
+                    new int[]{ -1, 3, -1 }
+                };
+                GUI.Text.move((Xratio - 1) * (Console.WindowWidth / Xratio),-6);
+                GUI.Text.Header("MAP:","",ConsoleColor.White,8,false);
+                //Console.SetCursorPosition((Xratio - 1) * (Console.WindowWidth / Xratio),(Yratio - 1) * (Console.WindowHeight / Yratio));
+                //Console.WriteLine(scenario.rooms[scenario.savedata.room].name[0]);
+                //GUI.Text.move(-2,-2);
+                //Console.BackgroundColor = ConsoleColor.DarkBlue;
+                //Console.ForegroundColor = ConsoleColor.White;
+                for (int y = 0; y < directions.Length; y++)
+                {
+                    for (int x = 0; x < directions.Length; x++)
+                    {
+                        try
+                        {
+                            if (directions[x][y] == 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            }
+                            Console.Write($"{scenario.rooms[scenario.rooms[scenario.savedata.room].connections[directions[x][y]]].name[0]} ");
+                            Console.ResetColor();
+                        }
+                        catch (Exception)
+                        {
+                            Console.Write("  ");
+                        }
+                    }
+                    GUI.Text.move(-6, 2);
+                }
+                Console.WriteLine();
             }
         }
     }
@@ -463,6 +553,24 @@ namespace The_Firebox_Paradigm_Revamped
     }
     public class GUI
     {
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+
+        private static extern IntPtr GetConsoleWindow();
+        private static IntPtr ThisConsole = GetConsoleWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private const int HIDE = 0;
+        private const int MAXIMIZE = 3;
+        private const int MINIMIZE = 6;
+        private const int RESTORE = 9;
+
+        public static void Maximize()
+        {
+            ShowWindow(ThisConsole, MAXIMIZE);
+        }
+
         public class Text
         {
             public const string CLS = "\u001bc\x1b[3J";         //clear screen
@@ -478,7 +586,7 @@ namespace The_Firebox_Paradigm_Revamped
             public const string BGCOLOR = "\u001b[48;5;1m";    //48 - background, 1m - red (256 color palette)
 
             static bool typeWrite = true;
-            
+
             public static void typeWriter(string message, bool skippable = true, int time = 100)
             {
                 int initLeft = Console.GetCursorPosition().Left;
@@ -545,21 +653,33 @@ namespace The_Firebox_Paradigm_Revamped
             {
                 Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
             }
-            public static void Header(string title, string subtitle = "", ConsoleColor foreGroundColor = ConsoleColor.White, int windowWidthSize = 90)
+            public static void Header(string title, string subtitle = "", ConsoleColor foreGroundColor = ConsoleColor.White, int windowWidthSize = -1, bool newLine = true)
             {
+                if (windowWidthSize == -1)
+                {
+                    windowWidthSize = Console.WindowWidth;
+                }
                 Console.Title = title + (subtitle != "" ? " - " + subtitle : "");
-                string titleContent = CenterText(title, "║");
-                string subtitleContent = CenterText(subtitle, "║");
+                string titleContent = CenterText(title, "║",windowWidthSize);
+                string subtitleContent = CenterText(subtitle, "║",windowWidthSize);
                 string borderLine = new String('═', windowWidthSize - 2);
 
                 Console.ForegroundColor = foreGroundColor;
+                (int Left, int Top) initPos = Console.GetCursorPosition();
                 Console.WriteLine($"╔{borderLine}╗");
+                Console.SetCursorPosition(initPos.Left, initPos.Top+1);
                 Console.WriteLine(titleContent);
+                Console.SetCursorPosition(initPos.Left, initPos.Top+2);
                 if (!string.IsNullOrEmpty(subtitle))
                 {
                     Console.WriteLine(subtitleContent);
+                    Console.SetCursorPosition(initPos.Left, initPos.Top+3);
                 }
                 Console.WriteLine($"╚{borderLine}╝");
+                if (!newLine)
+                {
+                    Console.SetCursorPosition(initPos.Left, initPos.Top+4);
+                }
                 Console.ResetColor();
             }
             public static string CenterText(string content, string decorationString = "", int windowWidthSize = -1)
@@ -586,8 +706,16 @@ namespace The_Firebox_Paradigm_Revamped
             }
             public static string ReadLine()
             {
-                Console.SetCursorPosition(lastStringStart,Console.GetCursorPosition().Top);
+                Console.SetCursorPosition(lastStringStart, Console.GetCursorPosition().Top);
                 return Console.ReadLine();
+            }
+            public static (int x, int y) move(int x = 0, int y = 0)
+            {
+                int newX, newY;
+                newX = Console.GetCursorPosition().Left + x;
+                newY = Console.GetCursorPosition().Top + y;
+                Console.SetCursorPosition(newX, newY);
+                return (newX, newY);
             }
 
         }
@@ -658,6 +786,39 @@ namespace The_Firebox_Paradigm_Revamped
         //https://stackoverflow.com/a/12340136/10315352
         public static ConsoleColor ClosestConsoleColor(byte r, byte g, byte b)
         {
+            ConsoleColor ret = 0;
+            double rr = r, gg = g, bb = b, delta = double.MaxValue;
+
+            foreach (ConsoleColor cc in Enum.GetValues(typeof(ConsoleColor)))
+            {
+                var n = Enum.GetName(typeof(ConsoleColor), cc);
+                var c = System.Drawing.Color.FromName(n == "DarkYellow" ? "Orange" : n); // bug fix
+                var t = Math.Pow(c.R - rr, 2.0) + Math.Pow(c.G - gg, 2.0) + Math.Pow(c.B - bb, 2.0);
+                if (t == 0.0)
+                    return cc;
+                if (t < delta)
+                {
+                    delta = t;
+                    ret = cc;
+                }
+            }
+            return ret;
+        }
+        public static ConsoleColor ClosestConsoleColor(string hex)
+        {
+            byte r, g, b;
+            byte[] hexBytes = Convert.FromHexString(hex);
+            try
+            {
+            r = hexBytes[0];
+            g = hexBytes[1];
+            b = hexBytes[2];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Exception e = new Exception("Invalid hex colour code");
+                throw(e);
+            }
             ConsoleColor ret = 0;
             double rr = r, gg = g, bb = b, delta = double.MaxValue;
 

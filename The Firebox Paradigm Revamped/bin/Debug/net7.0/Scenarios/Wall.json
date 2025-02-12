@@ -25,12 +25,12 @@
       "actions": [
         {
           "commands": [
-            "CHECK DOOR",
-            "DOOR"
+            "CHECK HOTEL",
+            "HOTEL"
           ],
           "type": "describe",
           "description": [
-            "The DOOR is tall and wooden, currently closed."
+            "There is a warm light emanating from the HOTEL, with the distant sound of music playing inside."
           ],
           "room": null,
           "newEvent": -1,
@@ -44,22 +44,50 @@
         {
           "type": "pre",
           "description": [
-            "/HANG/",
-            "/CLEAR/",
             "\u00D8 - OMICRON CONFLICT SOLUTIONS © 2061 - A UN PEACEKEEPING DIVISION, FOR WHEN ALL OTHER OPTIONS FAIL YOU.",
+			"/t=500/",
             "AGENT NAME: /NAME/",
+			"/t=500/",
             "\"Greetings.\"",
+			"/t=500/",
             "\"You are currently en route to the MILLENIUM CITY.\"",
+			"/t=500/",
             "\"Designed as a massive bastion of humanity's industrial prowess, this city was made to house workers on the FIREBOX project, or anyone else living inside the ATLANTIC CONTINENTAL WALL.\"",
+			"/t=2000/",
             "\"However, in recent years the place has been overrun with scum and villainy, and has become a hive for criminal empires looking to stay undetected.\"",
+			"/t=2000/",
             "\"The problem arose last month, when the project's overseer, an aging man named ALEKSANDER KOHLER who was well-known and loved by many, was mysteriously found dead in his penthouse, and now many legitimate workers are suspecting foul play.\"",
+			"/t=2000/",
             "\"The new leader, Gabriel Vargas, has taken over the project and in his few weeks as president, has already made many drastic departures from the standards laid out by Aleksander in 40 years before him.\"",
+			"/t=2000/",
             "\"In controlling the Phoenix continent, Vargas has secured his place as the most powerful man in the world, and he pledges safety and security, although his criminal record would seem to protest anything but.",
+			"/t=2000/",
             "\"A US native, Vargas has been accused on many occasions of tax fraud and various types of assault and blackmail to stop his dark secrets from getting out, having even been found in documents which seem to connect him to underground drug rings and corporate espionage circles.",
+			"/t=2000/",
             "\"Many campaigns have been made to place him into a prison cell, but unfortunately the wheels of international justice cannot turn by rumours alone, and as it just so happens, that's all there is.",
+			"/t=2000/",
             "\"As a result, many people worldwide have become fed up with his games and are now travelling to the city with the intent of revolution. Secret fight clubs lurk in underground arenas organised by ex-military soldiers, with intent to train up bands of revolutionaries, and the recent announcement of martial law has only seemed to fuel the fire, bringing more and more unsatisfied victims of his schemes to the city.",
+			"/t=2000/",
             "\"Your mission, should you choose to accept it, is to enter the city as a worker, infiltrate the wall hierarchy and collect any information you can find to link this man to a concrete sign of criminal activity. We must do everything we can to prevent civil conflict, and if that means beating him at his own game, then that is what we will do.",
-            "\"Local time is 19:32\"",
+			"/t=2000/",
+            "\"Local time is currently at 0200 hours\"",
+            "/HANG/",
+			"/t=500/",
+			"/BACKGROUND/#555555/",
+			"/CLEAR/",
+			"/t=500/",
+			"/BACKGROUND/#999999/",
+			"/CLEAR/",
+			"/t=500/",
+			"/BACKGROUND/#CCCCCC/",
+			"/CLEAR/",
+			"/t=500/",
+			"/BACKGROUND/#FFFFFF/",
+			"/CLEAR/",
+			"/t=500/",
+			"/BACKGROUND/#000000/",
+            "/CLEAR/",
+			"/t=1000/",
             "You step off the industrial FERRY onto dry land, looking up to see the great MILLENIUM CITY looming above you. The silhouette of tall SKYSCRAPERS blocks the sunlight, casting shadows over everything."
           ],
           "changeRoom": false,
@@ -103,5 +131,56 @@
         }
       ]
     }
+  ],
+  "universalCommands":[
+	{
+        "commands": [
+          "CHECK BRIEFING",
+          "BRIEFING"
+        ],
+        "type": "describe",
+		"description": [
+			"You open your pager and take a look at the briefing you were given on the boat.",
+			"",
+			"/DIVIDER/",
+			"/HEADER/PROJECT PHOENIX",
+            "ø - OMICRON CONFLICT SOLUTIONS © 2061 - A UN PEACEKEEPING DIVISION, FOR WHEN ALL OTHER OPTIONS FAIL YOU.",
+			"/t=500/",
+            "AGENT NAME: /NAME/",
+			"/t=500/",
+            "\"Greetings.\"",
+			"/t=500/",
+            "\"You are currently en route to the MILLENIUM CITY.\"",
+			"/t=500/",
+            "\"Designed as a massive bastion of humanity's industrial prowess, this city was made to house workers on the FIREBOX project, or anyone else living inside the ATLANTIC CONTINENTAL WALL.\"",
+			"/t=2000/",
+            "\"However, in recent years the place has been overrun with scum and villainy, and has become a hive for criminal empires looking to stay undetected.\"",
+			"/t=2000/",
+            "\"The problem arose last month, when the project's overseer, an aging man named ALEKSANDER KOHLER who was well-known and loved by many, was mysteriously found dead in his penthouse, and now many legitimate workers are suspecting foul play.\"",
+			"/t=2000/",
+            "\"The new leader, Gabriel Vargas, has taken over the project and in his few weeks as president, has already made many drastic departures from the standards laid out by Aleksander in 40 years before him.\"",
+			"/t=2000/",
+            "\"In controlling the Phoenix continent, Vargas has secured his place as the most powerful man in the world, and he pledges safety and security, although his criminal record would seem to protest anything but.",
+			"/t=2000/",
+            "\"A US native, Vargas has been accused on many occasions of tax fraud and various types of assault and blackmail to stop his dark secrets from getting out, having even been found in documents which seem to connect him to underground drug rings and corporate espionage circles.",
+			"/t=2000/",
+            "\"Many campaigns have been made to place him into a prison cell, but unfortunately the wheels of international justice cannot turn by rumours alone, and as it just so happens, that's all there is.",
+			"/t=2000/",
+            "\"As a result, many people worldwide have become fed up with his games and are now travelling to the city with the intent of revolution. Secret fight clubs lurk in underground arenas organised by ex-military soldiers, with intent to train up bands of revolutionaries, and the recent announcement of martial law has only seemed to fuel the fire, bringing more and more unsatisfied victims of his schemes to the city.",
+			"/t=2000/",
+            "\"Your mission, should you choose to accept it, is to enter the city as a worker, infiltrate the wall hierarchy and collect any information you can find to link this man to a concrete sign of criminal activity. We must do everything we can to prevent civil conflict, and if that means beating him at his own game, then that is what we will do.",
+			"/t=2000/",
+            "\"Local time is currently at 0200 hours\"",
+			"/DIVIDER/",
+			""
+			],
+   	    "room": null,
+	    "newEvent": -1,
+	    "curEvent": -1,
+	    "options": null,
+	    "answers": null,
+	    "changeRoom": false
+	}
   ]
+
 }
